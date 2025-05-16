@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify, send_file, render_template
 import os
 import re
 import logging
@@ -30,6 +30,9 @@ spotify = Spotify(auth_manager=SpotifyClientCredentials(
 DOWNLOADS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'downloads')
 os.makedirs(DOWNLOADS_DIR, exist_ok=True)
 
+@app.route('/')
+def home():
+    return render_template('index.html')
 
 @app.route('/api/fetch-playlist', methods=['POST'])
 def fetch_playlist():
@@ -45,11 +48,12 @@ def fetch_playlist():
         if not playlist_id:
             return jsonify({'error': 'Invalid Spotify playlist URL'}), 400
         
-        # Fetch playlist data from Spotify API
+        # Fetch all tracks from Spotify API
         playlist_data = spotify.playlist(playlist_id)
+        all_items = get_all_playlist_tracks(playlist_id)
         tracks = []
-        
-        for item in playlist_data['tracks']['items']:
+
+        for item in all_items:
             track = item['track']
             tracks.append({
                 'id': track['id'],
@@ -171,6 +175,15 @@ def download_from_youtube(youtube_url, output_path):
     except Exception as e:
         logger.error(f"Error downloading from YouTube: {str(e)}")
         return {'success': False, 'error': str(e)}
+
+def get_all_playlist_tracks(playlist_id):
+    tracks = []
+    results = spotify.playlist_tracks(playlist_id, limit=100, offset=0)
+    tracks.extend(results['items'])
+    while results['next']:
+        results = spotify.next(results)
+        tracks.extend(results['items'])
+    return tracks
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

@@ -77,7 +77,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const trackItem = document.createElement('div');
             trackItem.className = 'track-item';
             trackItem.dataset.trackId = track.id;
-            
+
+            // Fallbacks for youtube property
+            const youtubeTitle = track.youtube && track.youtube.title ? track.youtube.title : 'Not matched yet';
+            const youtubeUrl = track.youtube && track.youtube.url ? track.youtube.url : '#';
+
             trackItem.innerHTML = `
                 <div class="track-number">${index + 1}</div>
                 <div class="track-info">
@@ -85,8 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="track-artist">${track.artist}</div>
                 </div>
                 <div class="youtube-match">
-                    <div class="youtube-title">${track.youtube.title}</div>
-                    <a href="${track.youtube.url}" target="_blank" class="youtube-link">View on YouTube</a>
+                    <div class="youtube-title">${youtubeTitle}</div>
+                    <a href="${youtubeUrl}" target="_blank" class="youtube-link">${youtubeUrl !== '#' ? 'View on YouTube' : ''}</a>
                 </div>
                 <div class="track-actions">
                     <button class="download-single" data-index="${index}">Download</button>
@@ -160,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="progress-bar-container">
                 <div class="progress-bar"></div>
             </div>
-            <div class="progress-percentage">0%</div>
+            <div class="progress-percentage">0%</</div>
         `;
         
         return progressItem;
