@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Playlist Downloader</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Spotify Playlist Downloader</h1>
+            <p>Download songs from public Spotify playlists (for personal use only)</p>
+        </header>
+
+        <main>
+            <section class="input-section">
+                <h2>Step 1: Enter Playlist URL</h2>
+                <div class="input-group">
+                    <input type="text" id="playlist-url" placeholder="https://open.spotify.com/playlist/..." required>
+                    <button id="fetch-btn">Fetch Songs</button>
+                </div>
+                <div id="loading" class="hidden">
+                    <div class="spinner"></div>
+                    <p>Fetching playlist data...</p>
+                </div>
+            </section>
+
+            <section class="playlist-info hidden" id="playlist-info">
+                <div class="playlist-header">
+                    <div class="playlist-image">
+                        <img id="playlist-cover" src="" alt="Playlist Cover">
+                    </div>
+                    <div class="playlist-details">
+                        <h2 id="playlist-title"></h2>
+                        <p id="playlist-description"></p>
+                        <p><span id="track-count"></span> tracks</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="tracks-section hidden" id="tracks-section">
+                <h2>Step 2: Review Matched Songs</h2>
+                <div class="tracks-header">
+                    <div class="track-number">#</div>
+                    <div class="track-info">Track</div>
+                    <div class="youtube-match">YouTube Match</div>
+                    <div class="track-actions">Actions</div>
+                </div>
+                <div id="tracks-list"></div>
+                <div class="download-all-container">
+                    <button id="download-all" class="download-all-btn">Download All Songs</button>
+                </div>
+            </section>
+
+            <section class="download-section hidden" id="download-section">
+                <h2>Step 3: Download Progress</h2>
+                <div id="download-progress"></div>
+                <div class="download-zip-container hidden" id="download-zip-container">
+                    <button id="download-zip" class="download-zip-btn">Download as ZIP</button>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>For personal use only. This tool does not use Spotify's protected audio.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
